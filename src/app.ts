@@ -1,3 +1,4 @@
+import cors from 'cors'
 import express, { Application, Request } from 'express'
 const app: Application = express()
 
