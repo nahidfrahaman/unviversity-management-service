@@ -1,0 +1,11 @@
+Wed Jun 21 2023  16 :11:2 [UM] error: uncaught expection is detected listen EADDRINUSE: address already in use :::5000
+Wed Jun 21 2023  16 :12:17 [UM] error: uncaught expection is detected listen EADDRINUSE: address already in use :::5000
+Wed Jun 21 2023  16 :14:47 [UM] error: uncaught expection is detected listen EADDRINUSE: address already in use :::5000
+Wed Jun 21 2023  16 :15:27 [UM] error: uncaught expection is detected listen EADDRINUSE: address already in use :::5000
+Wed Jun 21 2023  16 :16:33 [UM] error: uncaught expection is detected listen EADDRINUSE: address already in use :::5000
+Wed Jun 21 2023  16 :18:27 [UM] error: uncaught expection is detected listen EADDRINUSE: address already in use :::5000
+Wed Jun 21 2023  16 :18:36 [UM] error: uncaught expection is detected listen EADDRINUSE: address already in use :::5000
+Wed Jun 21 2023  16 :18:53 [UM] error: uncaught expection is detected listen EADDRINUSE: address already in use :::5000
+Wed Jun 21 2023  16 :19:5 [UM] error: uncaught expection is detected listen EADDRINUSE: address already in use :::5000
+Wed Jun 21 2023  16 :21:17 [UM] error: uncaught expection is detected listen EADDRINUSE: address already in use :::5000
+Wed Jun 21 2023  16 :30:31 [UM] error: database connnection error querySrv ECONNREFUSED _mongodb._tcp.cluster124232.m0kzkeh.mongodb.net

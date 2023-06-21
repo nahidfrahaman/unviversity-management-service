@@ -1,17 +1,31 @@
-import cors from 'cors'
-import express, { Application, Request, Response } from 'express'
-import router from './app/modules/users/users.route'
-const app: Application = express()
+import cors from 'cors';
+import express, { Application, NextFunction, Request, Response } from 'express';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
+import routes from './app/routes';
+const app: Application = express();
 // using cors
-app.use(cors())
+app.use(cors());
 
 // parse data
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get('/', async (req: Request, res: Response) => {
-  res.send('server is working')
-})
-app.use('/api/v1/users/', router)
+app.use('/api/v1/', routes);
+// global error handaler
+app.use(globalErrorHandler);
 
-export default app
+app.use((req: Request, res: Response, next: NextFunction) => {
+  next();
+  res.status(400).json({
+    success: false,
+    message: 'route not found',
+    errorMessage: [
+      {
+        path: req.originalUrl,
+        message: 'Api route not Found',
+      },
+    ],
+  });
+});
+
+export default app;
