@@ -35,16 +35,32 @@ const getLastFacultyFromDb = async () => {
       createdAt: -1,
     })
     .lean();
-  console.log('lastFacuty : fomr - getlastFaculty Fromdb', lastFaculty);
 
   return lastFaculty?.id ? lastFaculty.id.substring(2) : undefined;
 };
 
 export const generateFaculytId = async () => {
-  console.log('generatedBlcok : ', await getLastFacultyFromDb());
   const currentId =
     (await getLastFacultyFromDb()) || (0).toString().padStart(5, '0');
   let incrementedId = (parseInt(currentId) + 1).toString().padStart(5, '0');
   incrementedId = `F-${incrementedId}`;
+  return incrementedId;
+};
+
+const getLastAdminFromDb = async () => {
+  const lastFaculty = await User.findOne({ role: 'Admin' }, { id: 1, _id: 0 })
+    .sort({
+      createdAt: -1,
+    })
+    .lean();
+
+  return lastFaculty?.id ? lastFaculty.id.substring(2) : undefined;
+};
+
+export const generateAdminId = async () => {
+  const currentId =
+    (await getLastAdminFromDb()) || (0).toString().padStart(5, '0');
+  let incrementedId = (parseInt(currentId) + 1).toString().padStart(5, '0');
+  incrementedId = `A-${incrementedId}`;
   return incrementedId;
 };

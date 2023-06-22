@@ -1,4 +1,4 @@
-export const facultySearchabeFields = [
+export const adminSearchabeFields = [
   'searchTerm',
   'id',
   'bloodGroup',
@@ -10,7 +10,7 @@ export const facultySearchabeFields = [
   'name.lastName',
 ];
 
-export const facultyFilterableFields = [
+export const adminFilterableFields = [
   'searchTerm',
   'id',
   'bloodGroup',

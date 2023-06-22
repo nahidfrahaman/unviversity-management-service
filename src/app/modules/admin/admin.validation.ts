@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const upadeteUserFacultyZodSchema = z.object({
+const upadeteUserAdminZodSchema = z.object({
   body: z
     .object({
       password: z.string().optional(),
@@ -18,6 +18,7 @@ const upadeteUserFacultyZodSchema = z.object({
           emergencyContactNo: z.string().optional(),
           presentAddress: z.string().optional(),
           permanentAddress: z.string().optional(),
+          managementDepartment: z.string().optional(),
           bloodGroup: z
             .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
             .optional(),
@@ -28,6 +29,6 @@ const upadeteUserFacultyZodSchema = z.object({
     .optional(),
 });
 
-export const FacultyValidation = {
-  upadeteUserFacultyZodSchema,
+export const AdminValidation = {
+  upadeteUserAdminZodSchema,
 };

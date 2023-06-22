@@ -1,0 +1,20 @@
+Thu Jun 22 2023  12 :20:29 [UM] error: unhandle rejection detected we are closing server
+Thu Jun 22 2023  12 :20:34 [UM] error: Attempted illegal state transition from [TRANSACTION_ABORTED] to [TRANSACTION_COMMITTED]
+Thu Jun 22 2023  12 :25:15 [UM] error: unhandle rejection detected we are closing server
+Thu Jun 22 2023  12 :25:20 [UM] error: Attempted illegal state transition from [TRANSACTION_ABORTED] to [TRANSACTION_COMMITTED]
+Thu Jun 22 2023  12 :26:35 [UM] error: unhandle rejection detected we are closing server
+Thu Jun 22 2023  12 :26:40 [UM] error: Attempted illegal state transition from [TRANSACTION_ABORTED] to [TRANSACTION_ABORTED]
+Thu Jun 22 2023  12 :26:51 [UM] error: unhandle rejection detected we are closing server
+Thu Jun 22 2023  12 :26:56 [UM] error: Attempted illegal state transition from [TRANSACTION_ABORTED] to [TRANSACTION_COMMITTED]
+Thu Jun 22 2023  12 :29:39 [UM] error: unhandle rejection detected we are closing server
+Thu Jun 22 2023  12 :29:44 [UM] error: Attempted illegal state transition from [TRANSACTION_ABORTED] to [TRANSACTION_COMMITTED]
+Thu Jun 22 2023  12 :30:58 [UM] error: unhandle rejection detected we are closing server
+Thu Jun 22 2023  12 :31:3 [UM] error: Attempted illegal state transition from [TRANSACTION_ABORTED] to [TRANSACTION_COMMITTED]
+Thu Jun 22 2023  12 :33:7 [UM] error: unhandle rejection detected we are closing server
+Thu Jun 22 2023  12 :33:12 [UM] error: Attempted illegal state transition from [TRANSACTION_ABORTED] to [TRANSACTION_COMMITTED]
+Thu Jun 22 2023  12 :34:59 [UM] error: unhandle rejection detected we are closing server
+Thu Jun 22 2023  12 :35:4 [UM] error: Attempted illegal state transition from [TRANSACTION_ABORTED] to [TRANSACTION_COMMITTED]
+Thu Jun 22 2023  12 :36:46 [UM] error: unhandle rejection detected we are closing server
+Thu Jun 22 2023  12 :36:51 [UM] error: Attempted illegal state transition from [TRANSACTION_ABORTED] to [TRANSACTION_COMMITTED]
+Thu Jun 22 2023  12 :38:3 [UM] error: unhandle rejection detected we are closing server
+Thu Jun 22 2023  12 :38:8 [UM] error: Attempted illegal state transition from [TRANSACTION_ABORTED] to [TRANSACTION_COMMITTED]

@@ -3,13 +3,19 @@ import mongoose from 'mongoose';
 import config from '../../../config/index';
 import { default as ApiError } from '../../../error/ApiError';
 import { AcademicSemister } from '../academicSemister/academicSemister.model';
+import { IAdmin } from '../admin/admin.interface';
+import { Admin } from '../admin/admin.model';
 import { IFaculty } from '../faculty/faculty.interface';
 import { Faculty } from '../faculty/faculty.model';
 import { IStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
 import { IUser } from './user.interface';
 import { User } from './user.model';
-import { generateFaculytId, generateStudentId } from './user.utils';
+import {
+  generateAdminId,
+  generateFaculytId,
+  generateStudentId,
+} from './user.utils';
 
 const createStudent = async (
   student: IStudent,
@@ -97,7 +103,7 @@ const createFaculty = async (
   try {
     session.startTransaction();
     const id = await generateFaculytId();
-    console.log('generated Id :', id);
+
     userData.id = id;
     faculty.id = id;
     const createdFaculty = await Faculty.create([faculty], { session });
@@ -140,8 +146,66 @@ const createFaculty = async (
 
   return newUserAllData;
 };
+const createAdmin = async (
+  admin: IAdmin,
+  userData: IUser
+): Promise<IUser | null> => {
+  if (!userData.password) {
+    userData.password = config.default_admin_Pass as string;
+  }
+
+  userData.role = 'Admin';
+
+  let newUserAllData: any = null;
+
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const id: string = await generateAdminId();
+
+    userData.id = id;
+    admin.id = id;
+
+    const createdFaculty = await Admin.create([admin], { session });
+    if (!createdFaculty.length) {
+      throw new ApiError(StatusCodes.BAD_REQUEST, 'created Faculty failed');
+    }
+
+    // Append Faculty id into user
+    userData.admin = createdFaculty[0]._id;
+
+    const newUser = await User.create([userData], { session });
+
+    if (!newUser.length) {
+      throw new ApiError(StatusCodes.BAD_REQUEST, 'failed to create user');
+    }
+
+    newUserAllData = newUser[0];
+    // Commit the transaction
+    await session.commitTransaction();
+    session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    throw error;
+  }
+
+  if (newUserAllData) {
+    newUserAllData = await User.findOne({ id: newUserAllData.id }).populate({
+      path: 'admin',
+      populate: [
+        {
+          path: 'managementDepartment',
+        },
+      ],
+    });
+  }
+
+  return newUserAllData;
+};
 
 export const UserService = {
   createStudent,
   createFaculty,
+  createAdmin,
 };

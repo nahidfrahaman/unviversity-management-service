@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StatusCodes } from 'http-status-codes';
 import mongoose, { SortOrder } from 'mongoose';
 import ApiError from '../../../error/ApiError';
@@ -8,14 +6,14 @@ import { paginationHelper } from '../../../helper/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IpaginationOption } from '../../../interfaces/pagination';
 import { User } from '../user/user.model';
-import { facultySearchabeFields } from './faculty.constant';
-import { IFaculty, IFacultyFilters } from './faculty.interface';
-import { Faculty } from './faculty.model';
+import { adminSearchabeFields } from './admin.constant';
+import { IAdmin, IAdminFilters } from './admin.interface';
+import { Admin } from './admin.model';
 
-const getFaculty = async (
-  filters: IFacultyFilters,
+const getAllAdmin = async (
+  filters: IAdminFilters,
   paginationOption: IpaginationOption
-): Promise<IGenericResponse<IFaculty[]>> => {
+): Promise<IGenericResponse<IAdmin[]>> => {
   const { searchTerm, ...filtersData } = filters;
 
   type Condition = {
@@ -26,7 +24,7 @@ const getFaculty = async (
 
   if (searchTerm) {
     andCondition.push({
-      $or: facultySearchabeFields.map(field => ({
+      $or: adminSearchabeFields.map(field => ({
         [field]: {
           $regex: searchTerm,
           $options: 'i',
@@ -53,12 +51,11 @@ const getFaculty = async (
     sortConditon[sortBy] = sortByOrder;
   }
 
-  const results = await Faculty.find(whereCondition)
+  const results = await Admin.find(whereCondition)
     .skip(skip)
     .limit(limit)
-    .populate('academicFaculty')
-    .populate('academicDepartment');
-  const total = await Faculty.countDocuments();
+    .populate('managementDepartment');
+  const total = await Admin.countDocuments(whereCondition);
   return {
     meta: {
       page: page,
@@ -69,42 +66,38 @@ const getFaculty = async (
   };
 };
 
-const getSingleFaculty = async (id: string): Promise<IFaculty | null> => {
-  const results = await Faculty.findOne({ id: id });
+const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
+  const results = await Admin.findOne({ id: id });
   return results;
 };
 
-const updateFaculty = async (id: string, payload: Partial<IFaculty>) => {
-  const { name, ...facultyData } = payload;
+const updateAdmin = async (id: string, payload: Partial<IAdmin>) => {
+  const { name, ...AdminData } = payload;
 
-  const user = await Faculty.findById(id);
+  const user = await Admin.findById(id);
 
   if (!user) {
     throw new ApiError(StatusCodes.OK, 'user not found');
   }
 
-  const updatefacultyData: Partial<IFaculty> = facultyData;
+  const updateAdminData: Partial<IAdmin> = AdminData;
 
   if (name && Object.keys(name).length > 0) {
     Object.keys(name).forEach(key => {
       const namekey = `name.${key}`;
-      updatefacultyData[namekey] = name[key as keyof typeof name];
+      updateAdminData[namekey] = name[key as keyof typeof name];
     });
   }
 
-  const results = await Faculty.findOneAndUpdate(
-    { _id: id },
-    updatefacultyData,
-    {
-      new: true,
-    }
-  );
+  const results = await Admin.findOneAndUpdate({ _id: id }, updateAdminData, {
+    new: true,
+  }).populate('managementDepartment');
   return results;
 };
-const deleteFaculty = async (id: string) => {
-  const isExist = await Faculty.findOne({ id });
+const deleteAdmin = async (id: string) => {
+  const isExist = await Admin.findOne({ id });
   if (!isExist) {
-    throw new ApiError(StatusCodes.BAD_REQUEST, 'faculty not found');
+    throw new ApiError(StatusCodes.BAD_REQUEST, 'Admin not found');
   }
 
   const session = await mongoose.startSession();
@@ -112,10 +105,9 @@ const deleteFaculty = async (id: string) => {
   let deletUser = null;
   try {
     session.startTransaction();
-    const results = await Faculty.findOneAndDelete({ id }, { session })
-      .populate('academicFaculty')
-
-      .populate('academicDepartment');
+    const results = await Admin.findOneAndDelete({ id }, { session }).populate(
+      'managementDepartment'
+    );
 
     const deletedUser = await User.findOneAndDelete({ id }, { session });
     deletUser = deletedUser;
@@ -129,9 +121,10 @@ const deleteFaculty = async (id: string) => {
   }
   return deletUser;
 };
-export const FacultyService = {
-  getFaculty,
-  getSingleFaculty,
-  updateFaculty,
-  deleteFaculty,
+
+export const AdminService = {
+  getAllAdmin,
+  getSingleAdmin,
+  updateAdmin,
+  deleteAdmin,
 };
